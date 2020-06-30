@@ -18,7 +18,12 @@ let pokedex = new Vue({
         perPage: 6,
 
         imageSide  : 'front',
-        redButtonOn: false,
+
+        redButtonOn: false,     // toggles the red 'playCry' button
+        leftYellowOn: false,    // toggles the left yellow arrow button
+        rightYellowOn: false,   // toggles the right yellow arrow button
+        leftGreyOn: false,      // toggles the left grey arrow button
+        rightGreyOn: false,     // toggles the right grey arrow button
     },
     methods: {
         show: function(pokemon){
@@ -106,8 +111,11 @@ let pokedex = new Vue({
             } else if(this.pokemonSet.length < this.perPage){
                 this.currentPokemon = {}
                 this.pokemonPage = this.pokemonSet
+                this.redButtonOn = false
             } else {
                 this.getPage()
+                this.redButtonOn = false
+
             }
             
             console.log(this.pokemonSet)

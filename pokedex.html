@@ -99,9 +99,14 @@
                   <div class="col col-7">
                     <div class="row">
                       <div class="col col-10 offset-1 d-flex align-items-center">
-                        <div id="blue-button"></div>
-                        <div class="green-button" v-on:click="imageSide = 'front'"></div>
-                        <div class="orange-button" v-on:click="imageSide = 'back'"></div>
+                        <div class="blue-button" 
+                             v-bind:class="{'blue-button-on': pokemonSet.length==1}"
+                             v-on:click="flipImage"
+                             title="Flip Image"
+                             >
+                        </div>
+                        <div class="green-button"></div>
+                        <div class="orange-button"></div>
                       </div>
                     </div>
                     <div class="row">
@@ -263,25 +268,35 @@
                 <div class="row">
                   <div class="col col-6">
                     <div class="d-flex justify-content-around" id="grey-arrow-buttons">
-                      <div v-on:click="prevPokemon" class="grey-button d-flex justify-content-center align-items-center pb-2">
-                        <div class="arrow">
+                      <div v-on:click="prevPokemon" 
+                           class="grey-button arrow d-flex justify-content-center align-items-center pb-2"
+                           v-bind:class="{'grey-button-on': pokemonSet.length == 1}"
+                           title="Previous Pokemon"
+                      >
                           &#129088;
-                        </div>
                       </div>
-                      <div v-on:click="nextPokemon" class="grey-button d-flex justify-content-center align-items-center pb-2">
-                        <div class="arrow">
+                      <div v-on:click="nextPokemon" 
+                           class="grey-button arrow d-flex justify-content-center align-items-center pb-2"
+                           v-bind:class="{'grey-button-on': pokemonSet.length == 1}"
+                           title="Next Pokemon"
+                           >
                           &#129090;
-                        </div>
                       </div>
                     </div>
                   </div>
         
                   <div class="col col-6 d-flex justify-content-around">
-                      <div v-on:click="prevPage" class="yellow-button d-flex justify-content-center align-items-center">
+                      <div v-on:click="prevPage" 
+                           v-bind:class="{ 'yellow-button-on': hasPrevPage() }"  
+                           class="yellow-button d-flex justify-content-center align-items-center"
+                           title="Previous Page"
+                      >
                         <div class="double-arrow">&#11244;</div>
                       </div>
-                    
-                      <div class="yellow-button d-flex justify-content-center align-items-center">
+                      <div class="yellow-button d-flex justify-content-center align-items-center"
+                           v-bind:class="{ 'yellow-button-on': hasNextPage() }" 
+                           title="Next Page"     
+                      >
                         <div v-on:click="nextPage" class="double-arrow">&#11246;</div>
                       </div>
         
