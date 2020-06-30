@@ -49,17 +49,31 @@ let pokedex = new Vue({
             this.pokemonPage = []
             this.currentPokemon = {}
 
+            // console.log('newQuery', newQuery)
+
+            // console.log('pokemonSet', this.pokemonSet)
+            // console.log('pokemonPage', this.pokemonPage)
+            // console.log('currentPokemon', this.currentPokemon)
+
+            // console.log('query', this.query)
+            // console.log('queryType', this.queryType)
+
 
             // if a query is passed to search, load it as the query
-            if(this.allTypes.includes(newQuery)){
-                this.query = newQuery
-            } else if (newQuery === Object(newQuery)){
-                this.query = newQuery.name
-                this.queryType = 'name'
+            if(newQuery != ''){
+                if(this.allTypes.includes(newQuery)){
+                    this.query = newQuery
+                } else if (newQuery === Object(newQuery)){
+                    this.query = newQuery.number
+                    this.queryType = 'number'
+                }
             }
             
+            console.log('newQuery', newQuery)
+            console.log('queryType', this.queryType)
+
             // if the query is empty, return
-            if(this.currentPokemon == {}){
+            if(this.query == ''){
                 this.redButtonOn = false
                 return
             }
@@ -68,7 +82,7 @@ let pokedex = new Vue({
             // add all matching pokemon to pokemonSet
             for (let i = 0; i < this.pokemon.length; i++) {
                 if(this.queryType == 'name'){
-                    if(this.pokemon[i][this.queryType].includes(this.query)){
+                    if(this.pokemon[i]['name'].includes(this.query)){
                         this.pokemonSet.push(this.pokemon[i])
                     }
                 } else if(this.queryType == 'types'){
@@ -78,8 +92,11 @@ let pokedex = new Vue({
                             this.pokemonSet.push(this.pokemon[i])
                         }
                     }
+
                 } else if(this.queryType == 'number'){
-                    if(this.pokemon[i][this.queryType] == this.query){
+                    if(this.pokemon[i]['number'] == this.query){
+                        console.log('searching numbers')
+
                         this.pokemonSet.push(this.pokemon[i])
                     }
                 }
@@ -93,6 +110,7 @@ let pokedex = new Vue({
                 this.getPage()
             }
             
+            console.log(this.pokemonSet)
 
         },
         getPage: function(){
@@ -118,13 +136,34 @@ let pokedex = new Vue({
         hasPrevPage: function(){
             return this.pageNumber > 1
         },
+        nextPokemon: function(){
+            if(this.currentPokemon.number + 1 > 151){
+                this.search(this.pokemon[0])
+
+            } else if(this.currentPokemon.number > 0) {
+                let curIndex = this.pokemon.indexOf(this.currentPokemon)
+                let nextPokemon = this.pokemon[++curIndex]
+                
+                this.search(nextPokemon)
+            }
+        },
+        prevPokemon: function(){
+            if(this.currentPokemon.number - 1 == 0){
+                this.search(this.pokemon[150])
+                
+            } else if(this.currentPokemon.number > 0) {
+                let curIndex = this.pokemon.indexOf(this.currentPokemon)
+                let nextPokemon = this.pokemon[--curIndex]
+                
+                this.search(nextPokemon)
+            }
+        },
         titlize: function(word) {
             return word[0].toUpperCase() + word.substr(1)
         },
     },
     created: function () {
         // Yes, I know this is gross
-
         this.pokemon = [
                 {
                     "number": 1,
