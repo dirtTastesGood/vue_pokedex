@@ -6,6 +6,7 @@ body {
   display: flex;
   font-family: 'Press Start 2P', cursive;
   padding: 20px;
+  position: relative;
 }
 
 #left-side {
@@ -208,12 +209,12 @@ body {
   width: 40px;
 }
 
-.blue-button:active{
+.blue-button-on:active{
   background-color: #01177a;
   box-shadow: 0 0 15px #01177a;
 }
 
-.blue-button:active::after{
+.blue-button-on:active::after{
   background-color: #0249c4;
 
 }
@@ -262,8 +263,18 @@ body {
   background-color: #fbfb05;
   border: 2px solid #000;
   border-radius: 10px;
+  box-shadow: 0 0 5px #fbfb05;
+  color: #a3a300;
   height: 40px;
   margin: 5px 0 15px 0;
+  transition: all .1s ease-in-out; 
+}
+
+#yellow-rect:hover{
+  background-color: #b8b803;
+  box-shadow: 0 0 2px #b8b803;
+  color: #5f5f01;
+  cursor: pointer;
 }
 
 #d-pad {
@@ -393,7 +404,7 @@ body {
   padding : 10px;
 }
 
-#blue-buttons {
+#search-panel {
   background-color: #2666d0;
   border: 2px solid black;
   border-radius: 10px;
@@ -402,27 +413,21 @@ body {
   min-height: 50px;
 }
 
-#blue-buttons .col {
+#search-panel .col {
   padding: 5px;
 }
 
-#blue-buttons form {
+#search-panel form {
   font-size: .8em;
 }
 
-#blue-buttons .blue-button {
-  background-color: #509df9;
-  border: 2px solid black;
-  border-radius: 5px;
-  min-height: 25px;
-}
 
-#blue-buttons input {
+#search-panel input {
   color: #fbfbfb;
   text-align: center;
 }
 
-#blue-buttons input[type=text] {
+#search-panel input[type=text] {
   background-color: inherit;
   border: none;
   border-bottom: 2px solid black;
@@ -430,7 +435,7 @@ body {
   width: 90%;
 }
 
-#blue-buttons input[type=submit] {
+#search-panel input[type=submit] {
   padding: 10px;
 }
 
@@ -497,6 +502,10 @@ body {
   width: 40px;
 }
 
+.yellow-button:hover {
+  cursor: pointer;
+}
+
 .yellow-button-on {
   background-color: #fff90f;
   box-shadow: 0 0 5px #fff90f;
@@ -509,5 +518,35 @@ body {
   text-shadow: 0 0 5px #900000;
   box-shadow: 0 0 2px #b8b100;
   color: #b10000;
-  
+}
+
+#help{
+  font-size: .8em;
+  height: 100%;
+  padding: 5px;
+  transition: all .3s ease-in-out;
+  width: 100%;
+  z-index: 3;
+}
+
+#help .blue-button {
+  background-color: #1231c0;
+  box-shadow: 0 0 20px #1231c0;
+  height: 30px;
+  width: 30px;
+}
+
+#help .blue-button::after{
+  background-color: #307bfa;
+  height: 20px;
+  width: 20px;
+}
+
+#help .blue-button:hover {
+  cursor: normal;
+}
+
+#help .med-red-circle {
+  background-color: #ff0000;
+  box-shadow: 0 0 25px #FF0000;
 }

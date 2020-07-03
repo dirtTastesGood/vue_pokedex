@@ -14,7 +14,7 @@ let pokedex = new Vue({
 
         query: '',
         queryType: 'name',
-        pageNumber: 1,
+        pageNumber: 0,
         perPage: 6,
 
         imageSide  : 'front',
@@ -24,45 +24,50 @@ let pokedex = new Vue({
         rightYellowOn: false,   // toggles the right yellow arrow button
         leftGreyOn: false,      // toggles the left grey arrow button
         rightGreyOn: false,     // toggles the right grey arrow button
+    
+        showHelp: false,
     },
     methods: {
         show: function(pokemon){
             this.currentPokemon = pokemon
-            this.currentCry = `https://raw.githubusercontent.com/dirtTastesGood/vue_pokedex/master/cries/${pokemon.name}.ogg`
-
             this.pokemonSet = [pokemon]
             this.redButtonOn = true
         },
         update: function () {
             this.search()
         },
+        /**
+         * Get the audio file for the current Pokemon
+         * and play it
+         */
         playCry: function(){
+            this.currentCry = `https://raw.githubusercontent.com/dirtTastesGood/vue_pokedex/master/cries/${this.currentPokemon.name}.ogg`
             if(this.currentCry) {
                 let audio = new Audio(this.currentCry);
                 audio.volume = 0.33
                 audio.play();
             }
         },
+        /**
+         * Toggle image view front and back
+         */
         flipImage: function(){
             if(this.redButtonOn == true){
                 this.imageSide = this.imageSide == 'front' ? 'back' : 'front'
             }
         },
-        search: function (newQuery='') {
-            this.pageNumber = 1
+        /**
+         * Reset Pokedex environment.
+         */
+        reset: function(){
+            this.pageNumber = 0
             this.pokemonSet = []
             this.pokemonPage = []
             this.currentPokemon = {}
-
-            // console.log('newQuery', newQuery)
-
-            // console.log('pokemonSet', this.pokemonSet)
-            // console.log('pokemonPage', this.pokemonPage)
-            // console.log('currentPokemon', this.currentPokemon)
-
-            // console.log('query', this.query)
-            // console.log('queryType', this.queryType)
-
+        },
+        search: function (newQuery='') {
+            this.showHelp = false
+            this.reset()
 
             // if a query is passed to search, load it as the query
             if(newQuery != ''){
@@ -74,10 +79,7 @@ let pokedex = new Vue({
                 }
             }
             
-            console.log('newQuery', newQuery)
-            console.log('queryType', this.queryType)
-
-            // if the query is empty, return
+            // if the query is empty, don't search
             if(this.query == ''){
                 this.redButtonOn = false
                 return
@@ -100,33 +102,38 @@ let pokedex = new Vue({
 
                 } else if(this.queryType == 'number'){
                     if(this.pokemon[i]['number'] == this.query){
-                        console.log('searching numbers')
 
                         this.pokemonSet.push(this.pokemon[i])
                     }
                 }
             }
+
+            // if only one Pokemon matches, show its details
             if(this.pokemonSet.length == 1){
                 this.show(this.pokemonSet[0])
+            
+            // if more than one Pokemon matches,
+            // but there's only one page
             } else if(this.pokemonSet.length < this.perPage){
-                this.currentPokemon = {}
                 this.pokemonPage = this.pokemonSet
+                this.currentPokemon = {}
                 this.redButtonOn = false
+
+            // if more than one page, get the first page
             } else {
                 this.getPage()
                 this.redButtonOn = false
 
             }
-            
-            console.log(this.pokemonSet)
-
         },
         getPage: function(){
-            let start = (this.pageNumber - 1) * this.perPage
+            let start = this.pageNumber * this.perPage
             let end = start + this.perPage
             this.pokemonPage = this.pokemonSet.slice(start, end)
+            
         },
         nextPage: function () {
+            console.log(this.hasNextPage())
             if(this.hasNextPage()){
                 this.pageNumber++
                 this.getPage()
@@ -138,11 +145,23 @@ let pokedex = new Vue({
                 this.getPage()
             }
         },
+        hasPrevPage: function(){
+            return this.pageNumber > 0
+        },
         hasNextPage: function(){
             return this.pageNumber < Math.floor(this.pokemonSet.length / this.perPage)
         },
-        hasPrevPage: function(){
-            return this.pageNumber > 1
+
+        prevPokemon: function(){
+            if(this.currentPokemon.number - 1 == 0){
+                this.search(this.pokemon[150])
+                
+            } else if(this.currentPokemon.number > 0) {
+                let curIndex = this.pokemon.indexOf(this.currentPokemon)
+                let nextPokemon = this.pokemon[--curIndex]
+                
+                this.search(nextPokemon)
+            }
         },
         nextPokemon: function(){
             if(this.currentPokemon.number + 1 > 151){
@@ -155,20 +174,12 @@ let pokedex = new Vue({
                 this.search(nextPokemon)
             }
         },
-        prevPokemon: function(){
-            if(this.currentPokemon.number - 1 == 0){
-                this.search(this.pokemon[150])
-                
-            } else if(this.currentPokemon.number > 0) {
-                let curIndex = this.pokemon.indexOf(this.currentPokemon)
-                let nextPokemon = this.pokemon[--curIndex]
-                
-                this.search(nextPokemon)
-            }
-        },
         titlize: function(word) {
             return word[0].toUpperCase() + word.substr(1)
         },
+        toggleHelp: function(){
+            this.showHelp = !this.showHelp
+        }
     },
     created: function () {
         // Yes, I know this is gross
