@@ -550,3 +550,18 @@ body {
   background-color: #ff0000;
   box-shadow: 0 0 25px #FF0000;
 }
+
+#help .grey-button {
+  background-color: #b0b0ae;
+  color: #FF0000;
+  text-shadow: 0 0 5px #ff0000; 
+}
+
+#help .yellow-button {
+  background-color: #fff90f;
+  box-shadow: 0 0 5px #fff90f;
+  color: #FF0000;
+  height: 30px;
+  text-shadow: 0 0 5px #ff1515;
+  width: 30px;
+}
