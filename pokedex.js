@@ -89,13 +89,13 @@ let pokedex = new Vue({
             // add all matching pokemon to pokemonSet
             for (let i = 0; i < this.pokemon.length; i++) {
                 if(this.queryType == 'name'){
-                    if(this.pokemon[i]['name'].includes(this.query)){
+                    if(this.pokemon[i]['name'].includes(this.query.toLowerCase())){
                         this.pokemonSet.push(this.pokemon[i])
                     }
                 } else if(this.queryType == 'types'){
 
                     for(let type of this.pokemon[i]['types']){
-                        if(type.includes(this.query)){
+                        if(type.includes(this.query.toLowerCase())){
                             this.pokemonSet.push(this.pokemon[i])
                         }
                     }
