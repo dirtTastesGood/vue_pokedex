@@ -3,7 +3,7 @@
 A functional **[Pokedex](https://codepen.io/dirttastesgood/full/GRovrBd)** for the original 151 Pokemon using Vue.js
 
 
-
+## Screenshots
 ![Screenshot 1 - Welcome screen][screenshot_1]
 
 ![Screenshot 2 - Welcome screen][screenshot_2]
