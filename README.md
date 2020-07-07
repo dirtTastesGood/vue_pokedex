@@ -23,8 +23,3 @@ Credit for all [Pokemon cries](https://www.youtube.com/watch?v=IjHGuuqVecE) goes
 
 [screenshot_4]: screenshots/screenshot4.jpg "Screenshot 4 - Help menu"
 
-<style>
-    img {
-        border-radius: 5px;
-    }
-</style>
